@@ -5,7 +5,7 @@ const jsonTemplate = `{
   "name": "餐厅名称",
   "area": "西岸滨江",
   "address": "详细地址（可选）",
-  "tags": ["适合聊天", "晚饭"]
+  "tags": ["安静舒适", "晚饭"]
 }`
 
 function PinIcon({ className = '' }) {
@@ -33,7 +33,7 @@ function MoonIcon({ className = '' }) {
   )
 }
 
-function AreaArtwork({ area, compact = false }) {
+function AreaArtwork({ area, compact = false, routeNumber = '' }) {
   return (
     <div
       className={`area-artwork ${compact ? 'area-artwork--compact' : ''}`}
@@ -48,15 +48,8 @@ function AreaArtwork({ area, compact = false }) {
         referrerPolicy="no-referrer"
         onError={(event) => event.currentTarget.classList.add('area-photo--unavailable')}
       />
-      <div aria-hidden="true">
-        <span className="artwork-sun" />
-        <span className="artwork-water artwork-water--one" />
-        <span className="artwork-water artwork-water--two" />
-        <span className="artwork-building artwork-building--one" />
-        <span className="artwork-building artwork-building--two" />
-        <span className="artwork-building artwork-building--three" />
-        <span className="artwork-caption">SHANGHAI AFTER DARK</span>
-      </div>
+      <span className="photo-grain" aria-hidden="true" />
+      <span className="artwork-caption" aria-hidden="true">{routeNumber ? `ROUTE ${routeNumber}` : 'SHANGHAI NIGHT'}</span>
     </div>
   )
 }
@@ -103,9 +96,9 @@ function App() {
 
   if (selectedArea) {
     return (
-      <main className="min-h-screen px-4 py-4 sm:px-6 sm:py-6">
-        <section className="page-shell mx-auto max-w-6xl overflow-hidden">
-          <header className="flex items-center justify-between px-5 py-5 sm:px-8">
+      <main className="site-frame min-h-screen px-4 py-4 sm:px-6 sm:py-6">
+        <section className="page-shell page-shell--detail mx-auto max-w-6xl overflow-hidden">
+          <header className="guide-header flex items-center justify-between px-5 py-5 sm:px-8">
             <button className="back-button" type="button" onClick={() => setSelectedArea(null)}>
               <span aria-hidden="true">←</span>
               返回选地点
@@ -122,16 +115,16 @@ function App() {
 
           <div className="grid lg:grid-cols-[0.95fr_1.05fr]">
             <div className="detail-art-panel p-5 sm:p-8 lg:p-10">
-              <div className="mb-7 flex items-center gap-2 text-xs font-semibold tracking-[0.14em] text-[var(--text-muted)]">
+              <div className="detail-label mb-7 flex items-center gap-2 text-xs font-semibold tracking-[0.14em] text-[var(--text-muted)]">
                 <PinIcon className="h-4 w-4" />
-                NIGHT WALK · SHANGHAI
+                SHANGHAI NIGHT GUIDE
               </div>
               <AreaArtwork area={selectedArea} />
               <p className="mt-6 max-w-md text-sm leading-7 text-[var(--text-muted)]">{selectedArea.note}</p>
             </div>
 
             <div className="px-5 pb-8 pt-2 sm:px-8 sm:pb-10 lg:px-10 lg:pt-10">
-              <p className="section-kicker">今晚的路线</p>
+              <p className="section-kicker">路线详情</p>
               <h1 className="display-title mt-2 text-4xl sm:text-5xl">{selectedArea.name}</h1>
               <p className="mt-4 text-base leading-8 text-[var(--text-muted)]">{selectedArea.description}</p>
 
@@ -142,8 +135,8 @@ function App() {
 
               <section className="mt-10">
                 <div className="flex items-baseline justify-between gap-4">
-                  <h2 className="section-title">推荐路线</h2>
-                  <span className="text-xs tracking-[0.12em] text-[var(--text-muted)]">慢慢来，不赶路</span>
+                  <h2 className="section-title">沿途安排</h2>
+                  <span className="text-xs tracking-[0.12em] text-[var(--text-muted)]">按时间灵活调整</span>
                 </div>
                 <ol className="route-list mt-5">
                   {selectedArea.route.map((stop, index) => (
@@ -162,7 +155,7 @@ function App() {
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
                     <h2 className="section-title">附近餐厅</h2>
-                    <p className="mt-1 text-sm text-[var(--text-muted)]">导入你亲自挑过的好地方</p>
+                    <p className="mt-1 text-sm text-[var(--text-muted)]">可导入自己的收藏，做成更实用的路线</p>
                   </div>
                   <button className="import-button" type="button" onClick={openImport}>＋ 导入餐厅</button>
                 </div>
@@ -200,7 +193,7 @@ function App() {
               <button className="modal-close" type="button" aria-label="关闭导入窗口" onClick={() => setIsImportOpen(false)}>×</button>
               <p className="section-kicker">餐厅数据</p>
               <h2 id="import-title" className="display-title mt-1 text-3xl">导入一间餐厅</h2>
-              <p className="mt-3 text-sm leading-6 text-[var(--text-muted)]">粘贴一条 JSON 数据，导入后仅保存在当前浏览器中。</p>
+              <p className="mt-3 text-sm leading-6 text-[var(--text-muted)]">粘贴一条 JSON 数据；导入后仅保存在当前浏览器中。</p>
               <textarea className="json-input mt-5" value={jsonInput} onChange={(event) => setJsonInput(event.target.value)} spellCheck="false" aria-label="餐厅 JSON 数据" />
               {importError && <p className="mt-3 text-sm text-[var(--error)]" role="alert">{importError}</p>}
               <div className="mt-5 flex justify-end gap-3">
@@ -215,10 +208,13 @@ function App() {
   }
 
   return (
-    <main className="min-h-screen px-4 py-4 sm:px-6 sm:py-6">
+    <main className="site-frame min-h-screen px-4 py-4 sm:px-6 sm:py-6">
       <section className="page-shell mx-auto max-w-6xl overflow-hidden">
-        <header className="flex items-center justify-between px-5 py-5 sm:px-8">
-          <div className="brand-mark">NIGHT NOTE</div>
+        <header className="guide-header flex items-center justify-between px-5 py-5 sm:px-8">
+          <div className="brand-lockup">
+            <span className="brand-mark">上海夜行路线</span>
+            <span className="brand-subtitle">SHANGHAI NIGHT GUIDE</span>
+          </div>
           <button
             className="theme-button"
             type="button"
@@ -230,10 +226,10 @@ function App() {
         </header>
 
         <div className="hero-grid border-t border-[var(--line)]">
-          <div className="px-5 pb-12 pt-10 sm:px-8 sm:pb-14 sm:pt-16 lg:px-12 lg:pb-16">
+          <div className="hero-copy px-5 pb-12 pt-10 sm:px-8 sm:pb-14 sm:pt-16 lg:px-12 lg:pb-16">
             <p className="section-kicker">从华东师范大学闵行校区出发</p>
             <h1 className="display-title mt-4 max-w-xl text-5xl leading-[1.02] sm:text-6xl lg:text-7xl">今晚去哪？</h1>
-            <p className="mt-6 max-w-md text-base leading-8 text-[var(--text-muted)]">晚饭 + 散步地点备选。挑一个方向，把普通周末过得像一段小旅行。</p>
+            <p className="mt-6 max-w-md text-base leading-8 text-[var(--text-muted)]">晚饭、散步、看展，选一个方向，把今晚安排得清楚一点。</p>
             <div className="mt-9 flex items-center gap-3 text-sm text-[var(--text-muted)]">
               <span className="pulse-dot" />
               已整理 5 条夜间路线
@@ -251,35 +247,35 @@ function App() {
           </div>
         </div>
 
-        <section className="border-t border-[var(--line)] px-5 py-10 sm:px-8 sm:py-12 lg:px-12">
+        <section className="routes-section border-t border-[var(--line)] px-5 py-10 sm:px-8 sm:py-12 lg:px-12">
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <div>
               <p className="section-kicker">选择今晚的城市切面</p>
               <h2 className="section-title mt-2">五个方向，五种心情</h2>
             </div>
-            <p className="max-w-xs text-sm leading-6 text-[var(--text-muted)]">每条路线都从晚饭开始，再把最后一段交给散步和聊天。</p>
+            <p className="max-w-xs text-sm leading-6 text-[var(--text-muted)]">每条路线标出主要停靠点；根据天气、时间和人流自行调整。</p>
           </div>
 
           <div className="area-grid mt-8">
-            {areaOptions.map((area) => (
-              <button className="area-card group text-left" type="button" key={area.id} onClick={() => chooseArea(area)} aria-label={`查看${area.name}路线`}>
-                <AreaArtwork area={area} compact />
-                <div className="mt-5 flex items-start justify-between gap-4">
+            {areaOptions.map((area, index) => (
+              <button className="area-card group text-left" type="button" key={area.id} onClick={() => chooseArea(area)} aria-label={`查看${area.name}路线`} style={{ '--card-delay': `${index * 70}ms` }}>
+                <AreaArtwork area={area} compact routeNumber={String(index + 1).padStart(2, '0')} />
+                <div className="area-card-content mt-5 flex items-start justify-between gap-4">
                   <div>
                     <h3 className="text-xl font-semibold tracking-tight text-[var(--text)]">{area.name}</h3>
                     <p className="mt-2 text-sm text-[var(--text-muted)]">{area.subtitle}</p>
                   </div>
                   <span className="card-arrow" style={{ '--area-accent': area.accent }}><ArrowIcon className="h-4 w-4" /></span>
                 </div>
-                <div className="mt-5 border-t border-[var(--line)] pt-4 text-xs font-medium tracking-[0.08em] text-[var(--text-muted)]">{area.duration}</div>
+                <div className="area-card-duration mt-5 border-t border-[var(--line)] pt-4 text-xs font-medium tracking-[0.08em] text-[var(--text-muted)]">{area.duration}<span>查看路线</span></div>
               </button>
             ))}
           </div>
         </section>
 
-        <footer className="flex flex-col gap-2 border-t border-[var(--line)] px-5 py-6 text-xs text-[var(--text-muted)] sm:flex-row sm:justify-between sm:px-8 lg:px-12">
-          <span>为一段不慌张的上海夜晚而作</span>
-          <span>先选方向，再决定晚饭。</span>
+        <footer className="site-footer flex flex-col gap-2 border-t border-[var(--line)] px-5 py-6 text-xs text-[var(--text-muted)] sm:flex-row sm:justify-between sm:px-8 lg:px-12">
+          <span>上海夜行路线</span>
+          <span>晚饭 · 散步 · 看展</span>
         </footer>
       </section>
     </main>

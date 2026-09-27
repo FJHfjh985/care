@@ -38,6 +38,18 @@ describe('今晚去哪？路线规划原型', () => {
     expect(screen.getByText('餐厅信息将在这里出现')).toBeInTheDocument()
   })
 
+  it('将每条路线以普通出行语气展示', async () => {
+    const user = userEvent.setup()
+
+    for (const area of areaOptions) {
+      const view = render(<App />)
+      await user.click(screen.getByRole('button', { name: `查看${area.name}路线` }))
+
+      expect(screen.queryByText(/约会|暧昧|情侣|心动|恋爱/)).not.toBeInTheDocument()
+      view.unmount()
+    }
+  })
+
   it('解析有效餐厅 JSON，并拒绝空数据', () => {
     expect(parseRestaurantJson('{"name":"晚风食堂","area":"西岸滨江","tags":["适合聊天"]}')).toEqual({
       name: '晚风食堂',
