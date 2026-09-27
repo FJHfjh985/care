@@ -35,14 +35,28 @@ function MoonIcon({ className = '' }) {
 
 function AreaArtwork({ area, compact = false }) {
   return (
-    <div className={`area-artwork ${compact ? 'area-artwork--compact' : ''}`} style={{ '--accent': area.accent, '--shade': area.shade }} aria-hidden="true">
-      <span className="artwork-sun" />
-      <span className="artwork-water artwork-water--one" />
-      <span className="artwork-water artwork-water--two" />
-      <span className="artwork-building artwork-building--one" />
-      <span className="artwork-building artwork-building--two" />
-      <span className="artwork-building artwork-building--three" />
-      <span className="artwork-caption">SHANGHAI AFTER DARK</span>
+    <div
+      className={`area-artwork ${compact ? 'area-artwork--compact' : ''}`}
+      style={{ '--accent': area.accent, '--shade': area.shade, '--photo-position': area.imagePosition }}
+    >
+      <img
+        className="area-photo"
+        src={area.imageUrl}
+        alt={`${area.name}实景`}
+        loading={compact ? 'lazy' : 'eager'}
+        decoding="async"
+        referrerPolicy="no-referrer"
+        onError={(event) => event.currentTarget.classList.add('area-photo--unavailable')}
+      />
+      <div aria-hidden="true">
+        <span className="artwork-sun" />
+        <span className="artwork-water artwork-water--one" />
+        <span className="artwork-water artwork-water--two" />
+        <span className="artwork-building artwork-building--one" />
+        <span className="artwork-building artwork-building--two" />
+        <span className="artwork-building artwork-building--three" />
+        <span className="artwork-caption">SHANGHAI AFTER DARK</span>
+      </div>
     </div>
   )
 }

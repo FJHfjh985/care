@@ -6,6 +6,8 @@ export const areaOptions = [
     duration: '约 2.5 小时',
     accent: '#f28a72',
     shade: '#f8d6c9',
+    imageUrl: 'https://imgix.bustle.com/wmag/2016/12/15/5852bdd057dfc3b0230f4940_1515-WM-CHIN-02.jpg',
+    imagePosition: 'center 52%',
     description: '适合把晚饭和散步放慢一点。江风、展馆和开阔的滨水步道，会把上海的夜晚拉得很长。',
     route: [
       { title: '西岸梦中心', note: '先吃晚饭，挑一家临江或露台餐厅' },
@@ -21,6 +23,8 @@ export const areaOptions = [
     duration: '约 2 小时',
     accent: '#ce9b5b',
     shade: '#f0dfb8',
+    imageUrl: 'https://lcc.sjtu.edu.cn/Assets/userfiles/sys_eb538c1c-65ff-4e82-8e6a-a1ef01127fed/images/2%2827%29.jpg',
+    imagePosition: 'center',
     description: '比起热闹商圈，这里更像一段有故事的旧电影。建筑的线条、安静的街道和晚开的咖啡店都很耐看。',
     route: [
       { title: '1933 老场坊', note: '先走进光影交错的混凝土迷宫' },
@@ -36,6 +40,8 @@ export const areaOptions = [
     duration: '约 3 小时',
     accent: '#6e9fbd',
     shade: '#c9dfeb',
+    imageUrl: 'https://sghimages.shobserver.com/img/catch/2024/12/06/2bbf4a43-9400-4ca0-8e42-bcd13c4a699f.jpg',
+    imagePosition: 'center 46%',
     description: '想看上海最有“夜航感”的一面，就往江东走。这里的距离感、天际线和风，会让普通的晚饭变成小旅行。',
     route: [
       { title: '世博大道', note: '晚饭后从宽阔的步道开始，不赶时间' },
@@ -51,6 +57,8 @@ export const areaOptions = [
     duration: '约 2.5 小时',
     accent: '#bc778e',
     shade: '#e9c8d2',
+    imageUrl: 'https://m.online.sh.cn/100/images/attachement/jpg/site1/20230519/IMGe0be037d2ca76344786021_small.JPG',
+    imagePosition: 'center 44%',
     description: '巨鹿、富民、长乐三条路连起来，是很适合“边走边决定”的地方。吃饭、逛店、喝一杯都有余地。',
     route: [
       { title: '巨鹿路', note: '先从一顿轻松晚饭开始，别把行程排得太满' },
@@ -66,6 +74,8 @@ export const areaOptions = [
     duration: '约 2 小时',
     accent: '#75a68b',
     shade: '#cce1d2',
+    imageUrl: 'https://www.credaward.com/wp-content/uploads/2023/12/DSCF3657-3000x2250.jpg',
+    imagePosition: 'center 38%',
     description: '一条更安静的夜游线。梧桐影子、教堂钟楼和公园长椅，适合不急着回去、也不急着把话说完的晚上。',
     route: [
       { title: '徐家汇公园', note: '散步先从绿意和水边开始' },

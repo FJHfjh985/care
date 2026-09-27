@@ -16,6 +16,17 @@ describe('今晚去哪？路线规划原型', () => {
     ])
   })
 
+  it('在首页为每个区域展示一张实景地点照片', () => {
+    render(<App />)
+
+    expect(screen.getAllByRole('img')).toHaveLength(5)
+    expect(screen.getByRole('img', { name: '西岸滨江实景' })).toHaveAttribute('src', expect.stringContaining('http'))
+    expect(screen.getByRole('img', { name: '四川北路实景' })).toHaveAttribute('src', expect.stringContaining('http'))
+    expect(screen.getByRole('img', { name: '浦东滨江实景' })).toHaveAttribute('src', expect.stringContaining('http'))
+    expect(screen.getByRole('img', { name: '巨富长实景' })).toHaveAttribute('src', expect.stringContaining('http'))
+    expect(screen.getByRole('img', { name: '衡山路 / 徐家汇实景' })).toHaveAttribute('src', expect.stringContaining('http'))
+  })
+
   it('点击区域卡片后展示详情与餐厅占位', async () => {
     const user = userEvent.setup()
     render(<App />)
